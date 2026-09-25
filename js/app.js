@@ -54,5 +54,87 @@
     $('#convite-link').textContent = VITRINEBR.contatoTexto || 'Quero uma vitrine';
   }
 
+  /* ---------- Movimento ---------- */
+  const html = document.documentElement;
+  const semMovimento = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Revela ao entrar na tela; ao sair por baixo, esconde de novo para repetir
+  const obs = !semMovimento && 'IntersectionObserver' in window
+    ? new IntersectionObserver((itens) => itens.forEach((e) => {
+      if (e.isIntersecting) e.target.classList.add('visivel');
+      else if (e.boundingClientRect.top > 0) e.target.classList.remove('visivel');
+    }), { rootMargin: '0px 0px -10% 0px', threshold: 0.12 })
+    : null;
+  // Enquanto a porta está fechada, espera para não animar escondido
+  let liberar;
+  const liberado = html.classList.contains('porta-espera') ? new Promise((r) => { liberar = r; }) : Promise.resolve();
+  const observar = (els) => liberado.then(() => els.forEach((el) => (obs ? obs.observe(el) : el.classList.add('visivel'))));
+
+  const renderBase = render;
+  render = function () {
+    renderBase();
+    document.querySelectorAll('.loja').forEach((el) => el.classList.add('revelar'));
+    observar(document.querySelectorAll('.loja'));
+  };
+
+  // Card inclina acompanhando o mouse
+  if (!semMovimento && matchMedia('(hover: hover)').matches) {
+    $('#grade').addEventListener('pointermove', (e) => {
+      const card = e.target.closest('.loja:not(.loja--breve)');
+      if (!card) return;
+      const r = card.getBoundingClientRect();
+      card.style.setProperty('--ry', `${((e.clientX - r.left) / r.width - 0.5) * 10}deg`);
+      card.style.setProperty('--rx', `${(0.5 - (e.clientY - r.top) / r.height) * 8}deg`);
+    });
+    $('#grade').addEventListener('pointerout', (e) => {
+      const card = e.target.closest('.loja');
+      if (card && !card.contains(e.relatedTarget)) { card.style.removeProperty('--rx'); card.style.removeProperty('--ry'); }
+    });
+  }
+
+  // Rolagem: progresso, título, letreiro e o balanço do toldo
+  const progresso = $('#progresso');
+  const linhas = [...document.querySelectorAll('.letreiro__linha')];
+  const toldo = $('.toldo__pano');
+  let ultimoY = scrollY;
+  let vel = 0;
+  let pedido = false;
+  function aoRolar() {
+    pedido = false;
+    const y = scrollY;
+    const max = document.documentElement.scrollHeight - innerHeight;
+    progresso.style.setProperty('--p', max > 0 ? (y / max).toFixed(4) : 0);
+    if (semMovimento) return;
+    html.style.setProperty('--r', Math.min(y, 500).toFixed(1));
+    linhas.forEach((l) => {
+      const r = l.parentElement.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > innerHeight) return;
+      const t = (innerHeight - r.top) / (innerHeight + r.height); // 0 → 1 enquanto passa pela tela
+      const faixa = l.scrollWidth / 3;
+      const x = l.dataset.sentido === '1' ? -t * faixa : -faixa + t * faixa;
+      l.style.setProperty('--x', x.toFixed(1));
+    });
+    // o toldo balança conforme a velocidade da rolagem
+    vel = Math.max(-8, Math.min(8, (y - ultimoY) * 0.4));
+    ultimoY = y;
+    toldo.style.setProperty('--vel', vel.toFixed(2));
+    clearTimeout(aoRolar.t);
+    aoRolar.t = setTimeout(() => toldo.style.setProperty('--vel', 0), 120);
+  }
+  addEventListener('scroll', () => { if (!pedido) { pedido = true; requestAnimationFrame(aoRolar); } }, { passive: true });
+  addEventListener('resize', aoRolar);
+
+  observar(document.querySelectorAll('.toldo, .convite'));
+
+  // Abertura: a porta sobe e libera a página
+  if (html.classList.contains('porta-fechada')) {
+    const soltar = () => { html.classList.remove('porta-espera'); liberar(); };
+    const abrir = () => { soltar(); html.classList.remove('porta-fechada'); };
+    setTimeout(soltar, 1600); // a porta começa a subir: a página já vai entrando
+    setTimeout(abrir, 2450);
+    $('#porta').addEventListener('click', abrir);
+  }
+
   render();
+  aoRolar();
 })();
