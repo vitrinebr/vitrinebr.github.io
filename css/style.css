@@ -314,3 +314,11 @@ img { display: block; max-width: 100%; }
 
 /* Toldo e letreiro de ponta a ponta da tela */
 .toldo, .letreiro { width: 100vw; margin-left: calc(50% - 50vw) !important; margin-right: 0 !important; }
+
+.topo__dir { display: flex; align-items: center; gap: 14px; }
+.topo__insta {
+  font-size: 14px; font-weight: 600; text-decoration: none; padding: 8px 14px; border-radius: 999px;
+  border: 1px solid var(--linha); transition: border-color .15s, background-color .15s;
+}
+.topo__insta:hover { border-color: var(--tinta-2); }
+@media (max-width: 420px) { .topo__conta { display: none; } }
