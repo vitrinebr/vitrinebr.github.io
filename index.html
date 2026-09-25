@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>vitrinebr | Vitrines de pequenos negócios</title>
+  <meta name="description" content="Uma coleção de vitrines de lojas, ateliês e pequenos negócios brasileiros. Escolha uma loja e fale direto com quem faz.">
+  <meta property="og:title" content="vitrinebr | Vitrines de pequenos negócios">
+  <meta property="og:description" content="Lojas, ateliês e pequenos negócios brasileiros, cada um com a sua vitrine.">
+  <meta property="og:image" content="assets/og.jpg">
+  <meta name="theme-color" content="#F6F3EE" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#14130F" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css?v=1">
+</head>
+<body>
+  <header class="topo">
+    <a class="marca" href="./" aria-label="vitrinebr, início">
+      <svg class="marca__icone" viewBox="0 0 32 32" aria-hidden="true">
+        <path d="M4 12 6.5 5h19L28 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/>
+        <path d="M4 12c0 2 1.6 3.4 3.5 3.4S11 14 11 12c0 2 1.6 3.4 3.5 3.4h3c1.9 0 3.5-1.4 3.5-3.4 0 2 1.6 3.4 3.5 3.4S28 14 28 12Z" fill="var(--acento)" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/>
+        <path d="M6.5 16v11h19V16M13 27v-6h6v6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/>
+      </svg>
+      <span>vitrine<b>br</b></span>
+    </a>
+    <span class="topo__conta" id="conta"></span>
+  </header>
+
+  <main>
+    <section class="abre">
+      <p class="abre__selo"><span></span> Feito para pequenos negócios</p>
+      <h1>Cada negócio,<br>uma <em>vitrine</em>.</h1>
+      <p class="abre__texto">Lojas, ateliês e marcas brasileiras reunidos num só lugar. Escolha uma vitrine, conheça as peças e fale direto com quem faz.</p>
+    </section>
+
+    <div class="filtros" id="filtros" role="toolbar" aria-label="Filtrar por categoria" hidden></div>
+
+    <section class="grade" id="grade" aria-label="Vitrines"></section>
+
+    <section class="convite" id="convite" hidden>
+      <h2>Tem um negócio e quer a sua vitrine?</h2>
+      <p>Uma página bonita, rápida e fácil de compartilhar, com suas fotos, seus produtos e um botão para a pessoa falar com você.</p>
+      <a class="botao" id="convite-link" href="#" target="_blank" rel="noopener"></a>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <span>vitrine<b>br</b> · <span id="ano"></span></span>
+    <span>Cada vitrine é de responsabilidade da própria loja.</span>
+  </footer>
+
+  <script src="js/lojas.js?v=1"></script>
+  <script src="js/app.js?v=1"></script>
+</body>
+</html>
