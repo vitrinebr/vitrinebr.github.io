@@ -6,8 +6,8 @@
 const VITRINEBR = {
   // Link para quem quiser uma vitrine (WhatsApp, Instagram, e-mail...).
   // Deixe vazio ('') para esconder o convite no fim da página.
-  contato: '',
-  contatoTexto: 'Quero uma vitrine',
+  contato: 'https://ig.me/m/euthigo.a',
+  contatoTexto: 'Quero minha vitrine',
 };
 
 /* ---------------------------------------------------------
